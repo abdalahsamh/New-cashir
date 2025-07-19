@@ -1,0 +1,23 @@
+@import "tailwindcss";
+@media print {
+  @page {
+    size: 80mm 297mm;
+    margin: 0;
+  }
+
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  #printable {
+    width: 80mm !important;
+    margin: 0 auto;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  .print\\:hidden {
+    display: none !important;
+  }
+}
