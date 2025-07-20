@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import React from "react"; // <-- السطر ده مهم!
+import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { Printer, Trash2, FileText } from "lucide-react";
+import { Printer, Trash2, FileText, List } from "lucide-react";
 import html2pdf from "html2pdf.js";
 
 const History = () => {
   const [history, setHistory] = useState([]);
-  const [filterBarber, setFilterBarber] = useState("الكل"); // حالة الفلتر
+  const [filterBarber, setFilterBarber] = useState("الكل");
+  const [expandedInvoice, setExpandedInvoice] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,13 +21,17 @@ const History = () => {
     }
   };
 
-  // الحصول على أسماء الفنيين الفريدة
+  const toggleInvoiceDetails = (invoiceNumber) => {
+    setExpandedInvoice(
+      expandedInvoice === invoiceNumber ? null : invoiceNumber
+    );
+  };
+
   const getBarbers = () => {
     const barbers = history.map((item) => item.barber || "—");
     return ["الكل", ...new Set(barbers)];
   };
 
-  // تصفية الفواتير حسب الفني المحدد
   const filteredHistory = history
     .slice()
     .reverse()
@@ -83,11 +89,11 @@ const History = () => {
           ${invoiceData.services
             .map(
               (service) => `
-            <tr>
-              <td>${service.name}</td>
-              <td class="text-right">${service.price} ج</td>
-            </tr>
-          `
+                <tr>
+                  <td>${service.name}</td>
+                  <td class="text-right">${service.price} ج</td>
+                </tr>
+              `
             )
             .join("")}
         </tbody>
@@ -111,12 +117,33 @@ const History = () => {
     html2pdf().from(invoiceElement).set(opt).save();
   };
 
-  // إحصائيات الفنيين (مصفاة حسب الاختيار)
   const technicianStats = filteredHistory.reduce((acc, item) => {
     const name = item.barber?.trim() || "—";
     acc[name] = (acc[name] || 0) + 1;
     return acc;
   }, {});
+
+  const technicianFinancialStats = useMemo(() => {
+    return history.reduce((acc, item) => {
+      const name = item.barber?.trim() || "—";
+      if (!acc[name]) {
+        acc[name] = {
+          count: 0,
+          total: 0,
+          services: {},
+        };
+      }
+      acc[name].count += 1;
+      acc[name].total += item.total;
+
+      item.services.forEach((service) => {
+        acc[name].services[service.name] =
+          (acc[name].services[service.name] || 0) + service.price;
+      });
+
+      return acc;
+    }, {});
+  }, [history]);
 
   if (history.length === 0) {
     return (
@@ -135,7 +162,6 @@ const History = () => {
     <div className="min-h-screen p-6 bg-gray-50">
       <h2 className="text-3xl font-bold text-center mb-6">🧾 سجل الفواتير</h2>
 
-      {/* فلتر الفنيين */}
       <div className="flex justify-end mb-4">
         <select
           value={filterBarber}
@@ -164,37 +190,114 @@ const History = () => {
           </thead>
           <tbody>
             {filteredHistory.map((item, index) => (
-              <tr key={index} className="hover">
-                <td>#{index + 1}</td>
-                <td>{item.customer}</td>
-                <td>{item.barber || "—"}</td>
-                <td>{item.total} ج</td>
-                <td>{item.createdAt}</td>
-                <td>
-                  <div className="flex gap-2 justify-center">
-                    <button
-                      onClick={() => handlePrintInvoice(item)}
-                      className="btn btn-xs btn-primary"
-                      title="إعادة طباعة"
-                    >
-                      <Printer size={16} />
-                    </button>
-                    <button
-                      onClick={() => handleDeleteInvoice(item.invoiceNumber)}
-                      className="btn btn-xs btn-error"
-                      title="حذف"
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                  </div>
-                </td>
-              </tr>
+              <React.Fragment key={index}>
+                <tr className="hover">
+                  <td>#{index + 1}</td>
+                  <td>{item.customer}</td>
+                  <td>{item.barber || "—"}</td>
+                  <td>{item.total} ج</td>
+                  <td>{item.createdAt}</td>
+                  <td>
+                    <div className="flex gap-2 justify-center">
+                      <button
+                        onClick={() => toggleInvoiceDetails(item.invoiceNumber)}
+                        className="btn btn-xs btn-warning"
+                        title="تفاصيل الطلب"
+                      >
+                        <List size={16} />
+                      </button>
+                      <button
+                        onClick={() =>
+                          navigate(`/invoice/${item.invoiceNumber}`)
+                        }
+                        className="btn btn-xs btn-info"
+                        title="عرض التفاصيل"
+                      >
+                        <FileText size={16} />
+                      </button>
+                      <button
+                        onClick={() => handlePrintInvoice(item)}
+                        className="btn btn-xs btn-primary"
+                        title="إعادة طباعة"
+                      >
+                        <Printer size={16} />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteInvoice(item.invoiceNumber)}
+                        className="btn btn-xs btn-error"
+                        title="حذف"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                {expandedInvoice === item.invoiceNumber && (
+                  <tr className="bg-gray-50">
+                    <td colSpan="7">
+                      <div className="p-4">
+                        <h4 className="font-bold mb-2">الخدمات المقدمة:</h4>
+                        <ul className="space-y-1">
+                          {item.services.map((service, i) => (
+                            <li key={i} className="flex justify-between">
+                              <span>{service.name}</span>
+                              <span>{service.price} ج</span>
+                            </li>
+                          ))}
+                        </ul>
+                        <div className="mt-2 pt-2 border-t font-bold">
+                          الإجمالي: {item.total} ج
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </React.Fragment>
             ))}
           </tbody>
         </table>
       </div>
 
-      {/* إحصائيات الفنيين */}
+      <div className="bg-white shadow rounded-xl p-4 mt-6 max-w-4xl mx-auto">
+        <h3 className="text-xl font-semibold mb-4 text-center">
+          💵 التقارير المالية
+        </h3>
+        <div className="overflow-x-auto">
+          <table className="table w-full">
+            <thead>
+              <tr>
+                <th>الفني</th>
+                <th>عدد الفواتير</th>
+                <th>إجمالي الإيرادات</th>
+                <th>أفضل 3 خدمات</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.entries(technicianFinancialStats).map(
+                ([name, stats], i) => (
+                  <tr key={i}>
+                    <td>{name}</td>
+                    <td>{stats.count}</td>
+                    <td>{stats.total.toFixed(2)} ج</td>
+                    <td>
+                      {Object.entries(stats.services)
+                        .sort((a, b) => b[1] - a[1])
+                        .slice(0, 3)
+                        .map(([service, total], j) => (
+                          <div key={j}>
+                            {service}: {total.toFixed(2)} ج
+                          </div>
+                        ))}
+                    </td>
+                  </tr>
+                )
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <div className="bg-white shadow rounded-xl p-4 mt-6 max-w-2xl mx-auto">
         <h3 className="text-xl font-semibold mb-4 text-center">
           📊 إحصائيات الفنيين{" "}
@@ -209,7 +312,6 @@ const History = () => {
         </ul>
       </div>
 
-      {/* الأزرار */}
       <div className="text-center mt-6 flex flex-col sm:flex-row gap-4 justify-center">
         <button
           onClick={() => navigate("/")}
