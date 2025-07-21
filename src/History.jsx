@@ -76,11 +76,11 @@ const History = () => {
 
   const handlePrintInvoice = (invoiceData) => {
     const invoiceElement = document.createElement("div");
-    invoiceElement.className = "p-8 bg-white font-sans";
+    invoiceElement.className = "p-8 bg-gray-900 text-gray-100 font-sans";
     invoiceElement.innerHTML = `
       <div class="text-center mb-6">
-        <h2 class="text-2xl font-bold text-blue-600">💈 مقص بلال</h2>
-        <p class="text-gray-500">فاتورة #${invoiceData.invoiceNumber}</p>
+        <h2 class="text-2xl font-bold text-blue-400">💈 مقص بلال</h2>
+        <p class="text-gray-400">فاتورة #${invoiceData.invoiceNumber}</p>
       </div>
       <div class="mb-6 space-y-2">
         <p class="flex justify-between"><span class="font-medium">الزبون:</span> ${
@@ -95,9 +95,9 @@ const History = () => {
       </div>
       <table class="w-full mb-6 border-collapse">
         <thead>
-          <tr class="bg-gray-100">
-            <th class="text-right p-3 border">الخدمة</th>
-            <th class="text-left p-3 border">السعر</th>
+          <tr class="bg-gray-800">
+            <th class="text-right p-3 border border-gray-700">الخدمة</th>
+            <th class="text-left p-3 border border-gray-700">السعر</th>
           </tr>
         </thead>
         <tbody>
@@ -105,15 +105,15 @@ const History = () => {
             .map(
               (service) => `
             <tr>
-              <td class="text-right p-3 border">${service.name}</td>
-              <td class="text-left p-3 border">${service.price} ج</td>
+              <td class="text-right p-3 border border-gray-700">${service.name}</td>
+              <td class="text-left p-3 border border-gray-700">${service.price} ج</td>
             </tr>
           `
             )
             .join("")}
         </tbody>
       </table>
-      <div class="text-left font-bold text-lg mt-4 pt-4 border-t">
+      <div class="text-left font-bold text-lg mt-4 pt-4 border-t border-gray-700 text-blue-400">
         الإجمالي: ${invoiceData.total} جنيه
       </div>
       <div class="text-center mt-8 text-sm text-gray-500">
@@ -175,13 +175,13 @@ const History = () => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-blue-50"
+        className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 to-gray-800"
       >
-        <div className="text-center p-8 bg-white rounded-xl shadow-lg max-w-md">
+        <div className="text-center p-8 bg-gray-800 rounded-xl shadow-lg max-w-md border border-gray-700">
           <motion.h2
             initial={{ y: -20 }}
             animate={{ y: 0 }}
-            className="text-2xl font-bold mb-4 text-gray-800"
+            className="text-2xl font-bold mb-4 text-gray-100"
           >
             📭 لا يوجد فواتير محفوظة
           </motion.h2>
@@ -202,7 +202,7 @@ const History = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen p-4 md:p-8 bg-gradient-to-br from-gray-50 to-blue-50"
+      className="min-h-screen p-4 md:p-8 bg-gradient-to-br from-gray-900 to-gray-800"
     >
       <motion.div
         initial={{ y: -20 }}
@@ -211,7 +211,7 @@ const History = () => {
       >
         <motion.h2
           whileHover={{ scale: 1.01 }}
-          className="text-3xl font-bold text-center mb-6 bg-gradient-to-r from-blue-600 to-amber-500 bg-clip-text text-transparent"
+          className="text-3xl font-bold text-center mb-6 bg-gradient-to-r from-blue-400 to-amber-400 bg-clip-text text-transparent"
         >
           🧾 سجل الفواتير
         </motion.h2>
@@ -221,7 +221,7 @@ const History = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => navigate("/")}
-            className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg shadow hover:bg-gray-50 transition"
+            className="flex items-center gap-2 px-4 py-2 bg-gray-700 rounded-lg shadow hover:bg-gray-600 transition text-gray-100"
           >
             <Home size={18} />
             الرئيسية
@@ -231,7 +231,7 @@ const History = () => {
             whileHover={{ scale: 1.02 }}
             value={filterBarber}
             onChange={(e) => setFilterBarber(e.target.value)}
-            className="select select-bordered bg-white shadow-sm max-w-xs"
+            className="select bg-gray-700 text-gray-100 border-gray-600 shadow-sm max-w-xs"
           >
             {getBarbers().map((barber, index) => (
               <option key={index} value={barber}>
@@ -243,11 +243,11 @@ const History = () => {
 
         <motion.div
           layout
-          className="bg-white rounded-2xl shadow-lg overflow-hidden mb-8"
+          className="bg-gray-800 rounded-2xl shadow-lg overflow-hidden mb-8 border border-gray-700"
         >
           <div className="overflow-x-auto">
             <table className="table w-full">
-              <thead className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+              <thead className="bg-gradient-to-r from-blue-800 to-blue-900 text-gray-100">
                 <tr>
                   <th className="text-center">رقم</th>
                   <th className="text-center">الزبون</th>
@@ -264,12 +264,14 @@ const History = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: index * 0.05 }}
-                    className="hover:bg-gray-50 border-b border-gray-100"
+                    className="hover:bg-gray-700 border-b border-gray-700 text-gray-200"
                   >
                     <td className="text-center font-medium">#{index + 1}</td>
                     <td className="text-center">{item.customer}</td>
                     <td className="text-center">{item.barber || "—"}</td>
-                    <td className="text-center font-bold">{item.total} ج</td>
+                    <td className="text-center font-bold text-blue-400">
+                      {item.total} ج
+                    </td>
                     <td className="text-center">{item.createdAt}</td>
                     <td className="text-center">
                       <div className="flex gap-2 justify-center">
@@ -279,7 +281,7 @@ const History = () => {
                           onClick={() =>
                             toggleInvoiceDetails(item.invoiceNumber)
                           }
-                          className="p-2 bg-amber-100 text-amber-700 rounded-lg hover:bg-amber-200 transition"
+                          className="p-2 bg-amber-900 text-amber-200 rounded-lg hover:bg-amber-800 transition"
                           title="تفاصيل الطلب"
                         >
                           {expandedInvoice === item.invoiceNumber ? (
@@ -293,7 +295,7 @@ const History = () => {
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
                           onClick={() => handlePrintInvoice(item)}
-                          className="p-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition"
+                          className="p-2 bg-blue-900 text-blue-200 rounded-lg hover:bg-blue-800 transition"
                           title="إعادة طباعة"
                         >
                           <Printer size={16} />
@@ -305,7 +307,7 @@ const History = () => {
                           onClick={() =>
                             handleDeleteInvoice(item.invoiceNumber)
                           }
-                          className="p-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition"
+                          className="p-2 bg-red-900 text-red-200 rounded-lg hover:bg-red-800 transition"
                           title="حذف"
                         >
                           <Trash2 size={16} />
@@ -324,11 +326,11 @@ const History = () => {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
-                className="bg-gray-50"
+                className="bg-gray-700"
               >
                 <td colSpan="6">
                   <div className="p-4">
-                    <h4 className="font-bold mb-3 text-gray-700">
+                    <h4 className="font-bold mb-3 text-gray-200">
                       الخدمات المقدمة:
                     </h4>
                     <ul className="space-y-2">
@@ -340,16 +342,16 @@ const History = () => {
                             initial={{ x: -20, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
                             transition={{ delay: i * 0.05 }}
-                            className="flex justify-between bg-white p-3 rounded-lg shadow-sm"
+                            className="flex justify-between bg-gray-800 p-3 rounded-lg shadow-sm text-gray-200"
                           >
                             <span className="font-medium">{service.name}</span>
-                            <span className="text-blue-600 font-bold">
+                            <span className="text-blue-400 font-bold">
                               {service.price} ج
                             </span>
                           </motion.li>
                         ))}
                     </ul>
-                    <div className="mt-3 pt-3 border-t font-bold text-lg text-blue-700">
+                    <div className="mt-3 pt-3 border-t border-gray-600 font-bold text-lg text-blue-400">
                       الإجمالي:{" "}
                       {
                         history.find(
@@ -369,17 +371,17 @@ const History = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="bg-white rounded-2xl shadow-lg p-6 mb-8"
+          className="bg-gray-800 rounded-2xl shadow-lg p-6 mb-8 border border-gray-700"
         >
           <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-            <h3 className="text-xl font-semibold text-gray-800">
+            <h3 className="text-xl font-semibold text-gray-200">
               💵 التقارير المالية
             </h3>
             <motion.select
               whileHover={{ scale: 1.02 }}
               value={filterFinancialBarber}
               onChange={(e) => setFilterFinancialBarber(e.target.value)}
-              className="select select-bordered bg-white shadow-sm max-w-xs"
+              className="select bg-gray-700 text-gray-100 border-gray-600 shadow-sm max-w-xs"
             >
               {getBarbers().map((barber, index) => (
                 <option key={index} value={barber}>
@@ -390,8 +392,8 @@ const History = () => {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="table w-full">
-              <thead className="bg-gray-100">
+            <table className="table w-full text-gray-200">
+              <thead className="bg-gray-700">
                 <tr>
                   <th className="text-right">الفني</th>
                   <th className="text-right">عدد الفواتير</th>
@@ -407,11 +409,11 @@ const History = () => {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: i * 0.1 }}
-                      className="hover:bg-gray-50"
+                      className="hover:bg-gray-700 border-b border-gray-700"
                     >
                       <td className="font-medium">{name}</td>
                       <td>{stats.count}</td>
-                      <td className="font-bold text-green-600">
+                      <td className="font-bold text-green-400">
                         {stats.total.toFixed(2)} ج
                       </td>
                       <td>
@@ -423,7 +425,7 @@ const History = () => {
                               key={j}
                               className="flex justify-between items-center py-1"
                             >
-                              <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">
+                              <span className="bg-blue-900 text-blue-200 px-2 py-1 rounded-full text-xs">
                                 {service}
                               </span>
                               <span className="font-medium">
@@ -444,9 +446,9 @@ const History = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="bg-white rounded-2xl shadow-lg p-6 mb-8"
+          className="bg-gray-800 rounded-2xl shadow-lg p-6 mb-8 border border-gray-700"
         >
-          <h3 className="text-xl font-semibold mb-4 text-center text-gray-800">
+          <h3 className="text-xl font-semibold mb-4 text-center text-gray-200">
             📊 إحصائيات الفنيين{" "}
             {filterBarber !== "الكل" && `(الفني: ${filterBarber})`}
           </h3>
@@ -457,7 +459,7 @@ const History = () => {
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: i * 0.1 }}
-                className="bg-gradient-to-r from-blue-50 to-white p-4 rounded-lg border border-blue-100 shadow-sm"
+                className="bg-gradient-to-r from-gray-700 to-gray-800 p-4 rounded-lg border border-gray-700 shadow-sm text-gray-200"
               >
                 <div className="flex justify-between items-center">
                   <span className="font-medium">{name}</span>

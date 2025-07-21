@@ -83,7 +83,7 @@ const Settings = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-4 md:p-8"
+      className="min-h-screen bg-[#111827] p-4 md:p-8 text-white"
     >
       <div className="max-w-4xl mx-auto">
         <motion.div
@@ -93,33 +93,33 @@ const Settings = () => {
         >
           <motion.h2
             whileHover={{ scale: 1.01 }}
-            className="text-3xl font-bold text-center mb-2 bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent"
+            className="text-3xl font-bold text-center mb-2 text-white"
           >
             ⚙️ إعدادات النظام
           </motion.h2>
-          <p className="text-gray-600">تعديل أسعار الخدمات وإعدادات أخرى</p>
+          <p className="text-gray-300">تعديل أسعار الخدمات وإعدادات أخرى</p>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-white rounded-2xl shadow-lg overflow-hidden mb-8"
+          className="bg-[#1f2937] rounded-2xl shadow-lg overflow-hidden mb-8"
         >
-          <div className="p-4 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-white">
-            <h3 className="text-xl font-semibold text-blue-800">
+          <div className="p-4 border-b border-[#374151] bg-[#1e293b]">
+            <h3 className="text-xl font-semibold text-white">
               💰 أسعار الخدمات
             </h3>
           </div>
 
           <div className="overflow-x-auto">
             <table className="table w-full">
-              <thead className="bg-gray-100">
+              <thead className="bg-[#374151]">
                 <tr>
-                  <th className="text-right font-semibold text-gray-700">
+                  <th className="text-right font-semibold text-gray-200">
                     الخدمة
                   </th>
-                  <th className="text-center font-semibold text-gray-700">
+                  <th className="text-center font-semibold text-gray-200">
                     السعر (جنيه)
                   </th>
                 </tr>
@@ -131,9 +131,9 @@ const Settings = () => {
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.03 }}
-                    className="hover:bg-gray-50 border-b border-gray-100"
+                    className="hover:bg-[#2d3748] border-b border-[#374151]"
                   >
-                    <td className="py-3 font-medium text-gray-800">
+                    <td className="py-3 font-medium text-gray-100">
                       {service.name}
                     </td>
                     <td className="py-3">
@@ -142,13 +142,13 @@ const Settings = () => {
                           type="number"
                           min="0"
                           step="5"
-                          className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-center"
+                          className="w-full px-4 py-2 rounded-lg border border-gray-600 bg-[#111827] text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-center"
                           value={service.price}
                           onChange={(e) =>
                             handlePriceChange(index, e.target.value)
                           }
                         />
-                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
                           ج
                         </span>
                       </div>
@@ -164,10 +164,10 @@ const Settings = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="bg-white rounded-2xl shadow-lg overflow-hidden mb-8"
+          className="bg-[#1f2937] rounded-2xl shadow-lg overflow-hidden mb-8"
         >
-          <div className="p-4 border-b border-gray-200 bg-gradient-to-r from-amber-50 to-white">
-            <h3 className="text-xl font-semibold text-amber-800">
+          <div className="p-4 border-b border-[#374151] bg-[#2c2f3a]">
+            <h3 className="text-xl font-semibold text-yellow-400">
               🔄 إعدادات أخرى
             </h3>
           </div>
@@ -175,10 +175,10 @@ const Settings = () => {
           <div className="p-4">
             <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
               <div>
-                <h4 className="font-medium text-gray-700 mb-1">
+                <h4 className="font-medium text-gray-200 mb-1">
                   تصفير عداد الطلبات
                 </h4>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-400">
                   إعادة تعيين عدد الطلبات لكل كرسي
                 </p>
               </div>
@@ -190,8 +190,8 @@ const Settings = () => {
                 disabled={isResetting}
                 className={`px-6 py-2 rounded-lg font-medium flex items-center gap-2 ${
                   isResetting
-                    ? "bg-gray-200 text-gray-500"
-                    : "bg-amber-100 hover:bg-amber-200 text-amber-800"
+                    ? "bg-gray-600 text-gray-400"
+                    : "bg-yellow-600 hover:bg-yellow-700 text-white"
                 }`}
               >
                 {isResetting ? (
@@ -215,7 +215,7 @@ const Settings = () => {
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             onClick={() => navigate("/")}
-            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg font-medium transition"
+            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-medium transition"
           >
             <ArrowLeft size={18} />
             الرجوع للرئيسية
@@ -228,8 +228,8 @@ const Settings = () => {
             disabled={isSaving}
             className={`flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-medium transition ${
               isSaving
-                ? "bg-gray-300 text-gray-500"
-                : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white"
+                ? "bg-gray-500 text-gray-300"
+                : "bg-green-600 hover:bg-green-700 text-white"
             }`}
           >
             {isSaving ? (
@@ -259,16 +259,16 @@ const Settings = () => {
               initial={{ scale: 0.9 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.9 }}
-              className="bg-white rounded-2xl p-6 text-center max-w-sm"
+              className="bg-[#1f2937] text-white rounded-2xl p-6 text-center max-w-sm"
             >
               <RefreshCw
                 size={32}
-                className="mx-auto mb-4 animate-spin text-blue-600"
+                className="mx-auto mb-4 animate-spin text-blue-400"
               />
               <h3 className="text-xl font-bold mb-2">
                 {isSaving ? "جاري حفظ التغييرات..." : "جاري تصفير العداد..."}
               </h3>
-              <p className="text-gray-600">برجاء الانتظار...</p>
+              <p className="text-gray-300">برجاء الانتظار...</p>
             </motion.div>
           </motion.div>
         )}

@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Trash2, ArrowLeft, Check, Plus } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 const defaultServices = [
   "قص شعر",
@@ -105,7 +105,7 @@ const Chair = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-4 md:p-8"
+      className="min-h-screen bg-black text-white p-4 md:p-8"
     >
       <div className="max-w-4xl mx-auto">
         <motion.div
@@ -117,13 +117,13 @@ const Chair = () => {
             whileHover={{ scale: 1.01 }}
             className={`text-3xl font-bold text-center mb-2 bg-clip-text text-transparent ${
               isVIP
-                ? "bg-gradient-to-r from-amber-500 to-amber-700"
-                : "bg-gradient-to-r from-blue-600 to-blue-800"
+                ? "bg-gradient-to-r from-yellow-300 to-yellow-500"
+                : "bg-gradient-to-r from-cyan-400 to-blue-500"
             }`}
           >
             {isVIP ? "⭐ كرسي VIP" : `🪑 كرسي ${chairId}`}
           </motion.h2>
-          <p className="text-gray-600">تسجيل طلب جديد</p>
+          <p className="text-gray-300">تسجيل طلب جديد</p>
         </motion.div>
 
         <div className="space-y-6">
@@ -134,26 +134,26 @@ const Chair = () => {
             className="grid grid-cols-1 md:grid-cols-2 gap-4"
           >
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-200">
                 اسم الزبون
               </label>
               <input
                 type="text"
                 placeholder="أدخل اسم الزبون"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                className="w-full px-4 py-3 border border-gray-600 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                 value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
               />
             </div>
 
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-200">
                 اسم الفني
               </label>
               <input
                 type="text"
                 placeholder="أدخل اسم الفني"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                className="w-full px-4 py-3 border border-gray-600 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                 value={barberName}
                 onChange={(e) => setBarberName(e.target.value)}
               />
@@ -164,10 +164,10 @@ const Chair = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-white rounded-2xl shadow-lg overflow-hidden"
+            className="bg-gray-900 rounded-2xl shadow-lg overflow-hidden"
           >
-            <div className="p-4 border-b border-gray-200">
-              <h3 className="text-xl font-semibold text-gray-800">
+            <div className="p-4 border-b border-gray-700">
+              <h3 className="text-xl font-semibold text-white">
                 💼 قائمة الخدمات
               </h3>
             </div>
@@ -184,16 +184,18 @@ const Chair = () => {
                     whileTap={{ scale: 0.98 }}
                     className={`relative p-3 rounded-xl border transition-all cursor-pointer ${
                       selectedServices.includes(service.name)
-                        ? "border-blue-500 bg-blue-50"
-                        : "border-gray-200 hover:border-blue-300 bg-white"
+                        ? "border-blue-400 bg-gray-800"
+                        : "border-gray-600 hover:border-blue-400 bg-gray-900"
                     }`}
                     onClick={() => toggleService(service.name)}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-medium">{service.name}</span>
+                      <span className="font-medium text-white">
+                        {service.name}
+                      </span>
 
                       <div className="flex items-center gap-2">
-                        <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold">
+                        <span className="px-2 py-1 bg-blue-800 text-white rounded-full text-xs font-bold">
                           {service.price}ج
                         </span>
 
@@ -202,7 +204,7 @@ const Chair = () => {
                             <Check size={14} className="text-white" />
                           </div>
                         ) : (
-                          <div className="w-5 h-5 rounded-full border-2 border-gray-300" />
+                          <div className="w-5 h-5 rounded-full border-2 border-gray-500" />
                         )}
                       </div>
                     </div>
@@ -215,7 +217,7 @@ const Chair = () => {
                           e.stopPropagation();
                           handleDelete(service.name);
                         }}
-                        className="absolute top-2 left-2 p-1 text-red-500 hover:text-red-700 rounded-full"
+                        className="absolute top-2 left-2 p-1 text-red-400 hover:text-red-600 rounded-full"
                       >
                         <Trash2 size={16} />
                       </motion.button>
@@ -230,13 +232,13 @@ const Chair = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="bg-white rounded-2xl shadow-lg p-4"
+            className="bg-gray-900 rounded-2xl shadow-lg p-4"
           >
             <div className="flex justify-between items-center">
-              <h3 className="text-xl font-semibold text-gray-800">
+              <h3 className="text-xl font-semibold text-white">
                 💵 إجمالي الفاتورة
               </h3>
-              <div className="text-2xl font-bold text-green-600">
+              <div className="text-2xl font-bold text-green-400">
                 {calculateTotal()} جنيه
               </div>
             </div>
@@ -252,7 +254,7 @@ const Chair = () => {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => navigate("/")}
-              className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg font-medium transition"
+              className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-medium transition"
             >
               <ArrowLeft size={18} />
               الرجوع للرئيسية
@@ -267,7 +269,7 @@ const Chair = () => {
               }
               className={`flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-medium transition ${
                 !customerName || !barberName || selectedServices.length === 0
-                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  ? "bg-gray-600 text-gray-400 cursor-not-allowed"
                   : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white"
               }`}
             >
