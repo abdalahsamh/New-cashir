@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Trash2 } from "lucide-react"; // ✅ أيقونة سلة من مكتبة lucide-react (تأكد إنها مثبتة)
+import { Trash2, ArrowLeft, Check, Plus } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const defaultServices = [
   "قص شعر",
@@ -40,6 +41,7 @@ const Chair = () => {
   const [barberName, setBarberName] = useState("");
   const [selectedServices, setSelectedServices] = useState([]);
   const [services, setServices] = useState([]);
+  const [isVIP, setIsVIP] = useState(chairId === "vip");
 
   const defaultNames = defaultServices.map((s) => s.name);
 
@@ -100,83 +102,182 @@ const Chair = () => {
   };
 
   return (
-    <div className="min-h-screen bg-base-100 p-6">
-      <h2 className="text-3xl font-bold text-center mb-6">
-        🪑 تسجيل طلب - كرسي {chairId}
-      </h2>
-
-      <div className="max-w-2xl mx-auto space-y-6">
-        <input
-          type="text"
-          placeholder="اسم الزبون"
-          className="input input-bordered w-full"
-          value={customerName}
-          onChange={(e) => setCustomerName(e.target.value)}
-        />
-
-        <input
-          type="text"
-          placeholder="اسم الفني"
-          className="input input-bordered w-full"
-          value={barberName}
-          onChange={(e) => setBarberName(e.target.value)}
-        />
-
-        <div className="bg-base-200 rounded-xl p-4 max-h-[400px] overflow-y-auto">
-          <h3 className="text-xl font-bold mb-4">💼 الخدمات:</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {services.map((service) => (
-              <label
-                key={service.name}
-                className="flex items-center justify-between bg-white rounded-lg shadow px-3 py-2 cursor-pointer transition hover:bg-blue-50"
-              >
-                <div className="flex items-center gap-2">
-                  <span>{service.name}</span>
-                  {!defaultNames.includes(service.name) && (
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDelete(service.name);
-                      }}
-                      className="text-red-500 hover:text-red-700"
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                  )}
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="badge badge-info">{service.price}ج</span>
-                  <input
-                    type="checkbox"
-                    className="checkbox checkbox-primary"
-                    checked={selectedServices.includes(service.name)}
-                    onChange={() => toggleService(service.name)}
-                  />
-                </div>
-              </label>
-            ))}
-          </div>
-        </div>
-
-        <div className="text-right text-xl font-bold">
-          💵 الإجمالي:{" "}
-          <span className="text-green-600">{calculateTotal()}</span> جنيه
-        </div>
-
-        <div className="flex justify-between gap-4">
-          <button
-            onClick={() => navigate("/")}
-            className="btn btn-outline w-1/2"
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-4 md:p-8"
+    >
+      <div className="max-w-4xl mx-auto">
+        <motion.div
+          initial={{ y: -20 }}
+          animate={{ y: 0 }}
+          className="flex flex-col items-center mb-8"
+        >
+          <motion.h2
+            whileHover={{ scale: 1.01 }}
+            className={`text-3xl font-bold text-center mb-2 bg-clip-text text-transparent ${
+              isVIP
+                ? "bg-gradient-to-r from-amber-500 to-amber-700"
+                : "bg-gradient-to-r from-blue-600 to-blue-800"
+            }`}
           >
-            رجوع ↩️
-          </button>
-          <button onClick={handleFinish} className="btn btn-success w-1/2">
-            إنهاء الطلب ✅
-          </button>
+            {isVIP ? "⭐ كرسي VIP" : `🪑 كرسي ${chairId}`}
+          </motion.h2>
+          <p className="text-gray-600">تسجيل طلب جديد</p>
+        </motion.div>
+
+        <div className="space-y-6">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.1 }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-4"
+          >
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                اسم الزبون
+              </label>
+              <input
+                type="text"
+                placeholder="أدخل اسم الزبون"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                value={customerName}
+                onChange={(e) => setCustomerName(e.target.value)}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                اسم الفني
+              </label>
+              <input
+                type="text"
+                placeholder="أدخل اسم الفني"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                value={barberName}
+                onChange={(e) => setBarberName(e.target.value)}
+              />
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="bg-white rounded-2xl shadow-lg overflow-hidden"
+          >
+            <div className="p-4 border-b border-gray-200">
+              <h3 className="text-xl font-semibold text-gray-800">
+                💼 قائمة الخدمات
+              </h3>
+            </div>
+
+            <div className="max-h-[400px] overflow-y-auto p-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {services.map((service, index) => (
+                  <motion.div
+                    key={service.name}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.03 }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className={`relative p-3 rounded-xl border transition-all cursor-pointer ${
+                      selectedServices.includes(service.name)
+                        ? "border-blue-500 bg-blue-50"
+                        : "border-gray-200 hover:border-blue-300 bg-white"
+                    }`}
+                    onClick={() => toggleService(service.name)}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-medium">{service.name}</span>
+
+                      <div className="flex items-center gap-2">
+                        <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold">
+                          {service.price}ج
+                        </span>
+
+                        {selectedServices.includes(service.name) ? (
+                          <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center">
+                            <Check size={14} className="text-white" />
+                          </div>
+                        ) : (
+                          <div className="w-5 h-5 rounded-full border-2 border-gray-300" />
+                        )}
+                      </div>
+                    </div>
+
+                    {!defaultNames.includes(service.name) && (
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDelete(service.name);
+                        }}
+                        className="absolute top-2 left-2 p-1 text-red-500 hover:text-red-700 rounded-full"
+                      >
+                        <Trash2 size={16} />
+                      </motion.button>
+                    )}
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="bg-white rounded-2xl shadow-lg p-4"
+          >
+            <div className="flex justify-between items-center">
+              <h3 className="text-xl font-semibold text-gray-800">
+                💵 إجمالي الفاتورة
+              </h3>
+              <div className="text-2xl font-bold text-green-600">
+                {calculateTotal()} جنيه
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="flex flex-col sm:flex-row gap-4"
+          >
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={() => navigate("/")}
+              className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg font-medium transition"
+            >
+              <ArrowLeft size={18} />
+              الرجوع للرئيسية
+            </motion.button>
+
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={handleFinish}
+              disabled={
+                !customerName || !barberName || selectedServices.length === 0
+              }
+              className={`flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-medium transition ${
+                !customerName || !barberName || selectedServices.length === 0
+                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white"
+              }`}
+            >
+              <Check size={18} />
+              إنهاء الطلب
+            </motion.button>
+          </motion.div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

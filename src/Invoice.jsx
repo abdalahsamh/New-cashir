@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Phone } from "lucide-react"; // تم استيراد أيقونة الهاتف
 
 const Invoice = () => {
   const [invoice, setInvoice] = useState(null);
   const [invoiceNumber, setInvoiceNumber] = useState("");
-  const [discount, setDiscount] = useState(0); // النسبة من 10 إلى 50
+  const [discount, setDiscount] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -96,7 +97,35 @@ const Invoice = () => {
           <p className="text-right font-bold">الإجمالي: {total} جنيه</p>
         )}
 
-        <p className="text-center mt-3 text-[10px]">
+        {/* قسم أرقام التليفونات مع الأيقونات */}
+        <div className="mt-4 pt-2 border-t border-dashed text-center text-[10px]">
+          <p className="font-bold mb-2 flex items-center justify-center">
+            <Phone className="ml-1" size={14} />
+            للحجز والاستعلام:
+          </p>
+          <div className="space-y-1">
+            <p className="flex items-center justify-center">
+              <Phone className="ml-1" size={12} />
+              <a
+                href="tel:01289139006"
+                className="hover:text-blue-600 print:hover:text-black"
+              >
+                01289139006
+              </a>
+            </p>
+            <p className="flex items-center justify-center">
+              <Phone className="ml-1" size={12} />
+              <a
+                href="tel:01115291833"
+                className="hover:text-blue-600 print:hover:text-black"
+              >
+                01115291833
+              </a>
+            </p>
+          </div>
+        </div>
+
+        <p className="text-center mt-2 text-[10px]">
           شكرًا لزيارتكم ✂️ مقص بلال
         </p>
       </div>
