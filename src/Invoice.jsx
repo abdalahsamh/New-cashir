@@ -105,14 +105,25 @@ const Invoice = () => {
           </p>
           <div className="space-y-1">
             <p className="flex items-center justify-center">
-              <Phone className="ml-1" size={12} />
+              {/* أيقونة واتساب */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="12"
+                height="12"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                className="ml-1 text-green-500"
+              >
+                <path d="M20.52 3.48a12.07 12.07 0 00-17.04 0A12.08 12.08 0 003.68 20L2 24l4.12-1.6a12.11 12.11 0 0014.4-18.92zM12 21.3a9.32 9.32 0 01-4.7-1.27l-.34-.2-2.45.94.94-2.39-.22-.36A9.3 9.3 0 1112 21.3zm5.1-6.93c-.28-.14-1.67-.82-1.93-.91s-.45-.14-.64.14-.73.91-.9 1.1-.34.21-.63.07a7.65 7.65 0 01-2.25-1.39 8.42 8.42 0 01-1.56-1.93c-.16-.28 0-.44.12-.6.12-.13.27-.34.4-.51a2 2 0 00.27-.46.54.54 0 00-.02-.51c-.07-.14-.64-1.55-.88-2.12s-.47-.46-.64-.47h-.55a1 1 0 00-.72.34 3 3 0 00-.93 2.2 5.26 5.26 0 001.1 2.58 11.42 11.42 0 004.33 4.18 7.83 7.83 0 002.33.86 2.28 2.28 0 001.49-.93 1.88 1.88 0 00.14-.93c-.06-.1-.23-.16-.51-.3z" />
+              </svg>
               <a
-                href="tel:01289139006"
-                className="hover:text-blue-600 print:hover:text-black"
+                href="tel:01201353503"
+                className="hover:text-green-500 print:hover:text-black"
               >
                 01201353503
               </a>
             </p>
+
             <p className="flex items-center justify-center">
               <Phone className="ml-1" size={12} />
               <a
